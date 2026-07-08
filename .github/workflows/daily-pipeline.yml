@@ -1,0 +1,44 @@
+name: Daily Currency Pipeline
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # runs daily at 6:00 AM UTC
+  workflow_dispatch:        # lets you trigger it manually from GitHub's UI too
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests pandas numpy
+
+      - name: Run pipeline
+        run: python -c "
+          from src.extract import fetch_rates_with_retry, save_raw_response, load_raw_files;
+          from src.transform_load import flatten_all_records, dedupe_by_date, add_pct_change, load_to_sqlite;
+          payload = fetch_rates_with_retry();
+          save_raw_response(payload, target_date='latest');
+          raw_records = load_raw_files();
+          df, missing_log = flatten_all_records(raw_records);
+          df = dedupe_by_date(df);
+          df = add_pct_change(df);
+          load_to_sqlite(df);
+          print('Pipeline run complete');
+          "
+
+      - name: Commit and push updated data
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git diff --staged --quiet || git commit -m "Automated daily pipeline run"
+          git push
