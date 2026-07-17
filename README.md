@@ -131,4 +131,4 @@ python run_pipeline.py
 
 ## Author
 
-Daniyal Atiq — [Upwork profile] · [LinkedIn]
+Daniyal Atiq
