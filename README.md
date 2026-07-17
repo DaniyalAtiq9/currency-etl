@@ -100,7 +100,7 @@ currency-etl/
 
 - **CI `IndentationError`**: an early version of the GitHub Actions workflow inlined the pipeline as a multi-line `python -c "..."` string in YAML. Whitespace handling between YAML and Python's indentation rules conflicted, breaking the script silently in CI while working locally. Fixed by extracting the logic into a standalone `run_pipeline.py` script — more robust, and independently testable.
 - **GitHub Actions `403` on push**: the workflow's default token had read-only repo access, so the automated "commit updated data" step failed. Fixed by explicitly declaring `permissions: contents: write` in the workflow file.
-- **Data gap investigation**: a short gap appeared in the collected dataset (a day or two missing). Traced to [confirm: weekend/FX market closure, or a missed Actions run — fill in once you check], and documented rather than papered over.
+- **Data gap investigation**: a short gap appeared in the collected dataset due to weekend (Saturday, Sunday) coming up, traced and documented rather than papered over.
 
 ## Results
 
