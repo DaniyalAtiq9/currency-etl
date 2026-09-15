@@ -128,7 +128,3 @@ cd currency-etl
 pip install requests pandas numpy matplotlib
 python run_pipeline.py
 ```
-
-## Author
-
-Daniyal Atiq
