@@ -1,0 +1,14 @@
+{
+  "collected_at_utc": "20261117T150818Z",
+  "requested_date": "latest",
+  "source": "frankfurter.dev",
+  "payload": {
+    "amount": 1.0,
+    "base": "USD",
+    "date": "2026-11-17",
+    "rates": {
+      "EUR": 0.91,
+      "GBP": 0.75808
+    }
+  }
+}
